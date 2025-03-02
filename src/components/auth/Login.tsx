@@ -18,7 +18,6 @@ export default function Login() {
     try {
       const response = await API.post("/auth/login", { username, password });
       const token = response.data;
-      console.log(token);
 
       localStorage.setItem("token", token);
       setToken(token);
