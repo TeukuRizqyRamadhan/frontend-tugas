@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 interface TaskData {
   class: {
     name: string
+    note?: string
   }
   title: string;
   description: string;
@@ -18,6 +19,7 @@ interface TaskData {
 export default function Task() {
   const { id } = useParams();
   const [name, setName] = useState("");
+  const [note, setNote] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [taskData, setTaskData] = useState<TaskData | null>(null);
   const navigate = useNavigate();
@@ -51,6 +53,7 @@ export default function Task() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("file", selectedFile);
+    formData.append("note", note);
     formData.append("taskId", id as string); // Menggunakan taskId dari URL
 
     try {
@@ -126,6 +129,13 @@ export default function Task() {
                     placeholder="Masukkan Nama Anda"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    className="w-full p-2 border rounded-lg mb-4"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Masukkan Keterangan"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
                     className="w-full p-2 border rounded-lg mb-4"
                   />
 

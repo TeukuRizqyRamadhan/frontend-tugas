@@ -16,6 +16,7 @@ export default function DaftarTugas() {
     id: string;
     name: string;
     fileUrl: string;
+    note?: string;
   }
 
   const [kelas, setKelas] = useState<{ id: string; name: string }[]>([]);
@@ -134,7 +135,14 @@ export default function DaftarTugas() {
     });
   };
 
-
+  const showNote = (note: string) => {
+    Swal.fire({
+      title: "Catatan Siswa",
+      text: note,
+      icon: "info",
+      confirmButtonText: "Tutup",
+    });
+  };
 
   return (
     <>
@@ -196,11 +204,10 @@ export default function DaftarTugas() {
                 <tr className="bg-gray-100 dark:bg-gray-800">
                   <th className="border border-gray-300 dark:border-gray-700 p-2">No</th>
                   <th className="border border-gray-300 dark:border-gray-700 p-2">Nama Siswa</th>
+                  <th className="border border-gray-300 dark:border-gray-700 p-2">Jawaban</th>
+                  <th className="border border-gray-300 dark:border-gray-700 p-2">Note</th>
                   {isValidToken && isGuru && (
-                    <>
-                      <th className="border border-gray-300 dark:border-gray-700 p-2">Jawaban</th>
-                      <th className="border border-gray-300 dark:border-gray-700 p-2">Aksi</th>
-                    </>
+                    <th className="border border-gray-300 dark:border-gray-700 p-2">Aksi</th>
                   )}
                 </tr>
               </thead>
@@ -212,37 +219,62 @@ export default function DaftarTugas() {
                       <td className="border border-gray-300 dark:border-gray-700 p-2">{index + 1}</td>
                       <td className="border border-gray-300 dark:border-gray-700 p-2">{item.name || "Tanpa Nama"}</td>
 
-                      {isValidToken && isGuru && (
-                        <>
-                          <td className="border border-gray-300 dark:border-gray-700 p-2">
-                            {item.fileUrl ? (
+                      {/* Kolom Jawaban */}
+                      <td className="border border-gray-300 dark:border-gray-700 p-2">
+                        {item.fileUrl ? (
+                          isValidToken && isGuru ? (
+                            <button className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700">
                               <a
-                                href={`http://192.168.1.185:3000${item.fileUrl}`}
+                                href={new URL(item.fileUrl, API.defaults.baseURL).href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-500 hover:underline"
                               >
                                 Lihat Jawaban
                               </a>
-                            ) : (
-                              "Belum ada jawaban"
-                            )}
-                          </td>
-                          <td className="border border-gray-300 dark:border-gray-700 p-2">
-                            <button
-                              className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700"
-                              onClick={() => deleteJawaban(item.id)}
-                            >
-                              Hapus
+
                             </button>
-                          </td>
-                        </>
+                          ) : (
+                            "Sudah Menjawab"
+                          )
+                        ) : (
+                          "Belum ada jawaban"
+                        )}
+                      </td>
+
+                      {/* Kolom Note */}
+                      <td className="border border-gray-300 dark:border-gray-700 p-2">
+                        {item.note ? (
+                          isValidToken && isGuru ? (
+                            <button
+                              className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700"
+                              onClick={() => showNote(item.note!)}
+                            >
+                              Lihat Note
+                            </button>
+                          ) : (
+                            "Ada catatan"
+                          )
+                        ) : (
+                          "Tidak ada catatan"
+                        )}
+                      </td>
+
+                      {/* Kolom Aksi (Hanya untuk Guru) */}
+                      {isValidToken && isGuru && (
+                        <td className="border border-gray-300 dark:border-gray-700 p-2">
+                          <button
+                            className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-700"
+                            onClick={() => deleteJawaban(item.id)}
+                          >
+                            Hapus
+                          </button>
+                        </td>
                       )}
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={isValidToken && isGuru ? 4 : 2} className="border border-gray-300 dark:border-gray-700 p-2 text-center">
+                    <td colSpan={isValidToken && isGuru ? 5 : 4} className="border border-gray-300 dark:border-gray-700 p-2 text-center">
                       Tidak ada jawaban untuk tugas ini.
                     </td>
                   </tr>
