@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import API from "../api/api";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
-import { FiLock, FiUnlock, FiUploadCloud } from "react-icons/fi";
+import { FiUploadCloud } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface TaskData {
@@ -20,6 +20,7 @@ export default function Task() {
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [taskData, setTaskData] = useState<TaskData | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
@@ -60,7 +61,10 @@ export default function Task() {
         icon: "success",
         title: "Berhasil!",
         text: "File berhasil diunggah.",
-      });
+      }).then(() => {
+        navigate("/dashboard");
+      })
+        ;
 
       setName("");
       setSelectedFile(null);
@@ -95,7 +99,7 @@ export default function Task() {
 
                   {/* Tampilkan file tugas jika ada */}
                   {taskData.fileUrl && (() => {
-                    const fileUrl = `http://192.168.1.224:3000/${taskData.fileUrl.replace(/\\/g, "/")}`;
+                    const fileUrl = `${API.defaults.baseURL}${taskData.fileUrl.replace(/\\/g, "/")}`;
                     const fileExtension = taskData.fileUrl.split('.').pop()?.toLowerCase();
                     const isImage = ["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(fileExtension || "");
 

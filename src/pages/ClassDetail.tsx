@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import Swal from "sweetalert2";
 import API from "../api/api";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
-import { FiArrowRight, FiLock, FiUnlock } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Assignment {
@@ -52,7 +51,7 @@ export default function ClassDetail() {
             <h2 className="text-xl font-semibold mb-4">Daftar Tugas</h2>
             {assignments.length > 0 ? (
               assignments.map((task) => {
-                const fileUrl = `http://192.168.1.224:3000/${task.fileUrl.replace(/\\/g, "/")}`;
+                const fileUrl = `${API.defaults.baseURL}${task.fileUrl.replace(/\\/g, "/")}`;
                 const fileExtension = task.fileUrl.split('.').pop()?.toLowerCase();
                 const isImage = ["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(fileExtension || "");
 

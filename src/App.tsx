@@ -6,7 +6,6 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import ClassDetail from "./pages/ClassDetail";
 import AdminDashboard from "./pages/AdminDashboard";
-import Notifications from "./pages/Notifications";
 import Task from "./pages/Task";
 import DaftarTugas from "./pages/DaftarTugas";
 
@@ -23,7 +22,6 @@ export default function App() {
             <Route path="/kelas/:id" element={<ClassDetail />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/notifikasi" element={<Notifications />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/tasks/:id" element={<Task />} />
             <Route path="/daftar-tugas" element={<DaftarTugas />} />

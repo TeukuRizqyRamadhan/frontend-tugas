@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import API from "../api/api";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
-import { FiFile, FiLock, FiUnlock, FiUpload } from "react-icons/fi";
+import { FiFile, FiLock, FiLogOut, FiUnlock, FiUpload } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
@@ -21,14 +21,11 @@ export default function AdminDashboard() {
   const [fileNames, setFileNames] = useState<{ [key: number]: string }>({}); // ✅ Untuk preview nama file
   const navigate = useNavigate();
   const token = useAuthStore((state) => state.token);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
     if (!token) {
-      Swal.fire({
-        title: "Akses Ditolak!",
-        text: "Silakan login terlebih dahulu.",
-        icon: "error",
-      }).then(() => navigate("/admin"));
+      navigate("/admin")
       return;
     }
     fetchClasses();
@@ -47,6 +44,23 @@ export default function AdminDashboard() {
         icon: "error",
       });
     }
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Logout",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout(); // Menghapus token
+        navigate("/admin"); // Redirect ke login
+        Swal.fire("Berhasil!", "Anda telah logout.", "success");
+      }
+    });
   };
 
   const toggleLock = async (id: number, isLocked: boolean) => {
@@ -137,6 +151,15 @@ export default function AdminDashboard() {
       <PageMeta title="Dashboard" description="Dashboard" />
       <PageBreadcrumb pageTitle="Dashboard" />
 
+      {/* Tombol Logout */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-500 text-white rounded flex items-center gap-2 hover:bg-red-600"
+        >
+          <FiLogOut /> Logout
+        </button>
+      </div>
       <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 p-5 lg:p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((cls) => (

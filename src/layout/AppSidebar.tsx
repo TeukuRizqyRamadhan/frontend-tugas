@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-import logo from "../../src/assets/logo.png"
-import logoDark from "../../src/assets/logo-dark.png"
+import logo from "../../src/assets/SMP.png"
+import logoDark from "../../src/assets/SMP.png"
 
 // Assume these icons are imported from an icon library
 import {
   ChevronDownIcon,
-  FileIcon,
   HorizontaLDots,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import { FileQuestion, HomeIcon, ListIcon, LockKeyholeIcon, LucideLayoutGrid, PlusSquareIcon, UploadCloudIcon, UserRoundCogIcon } from "lucide-react";
+import { HomeIcon, ListIcon, LockKeyhole } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -26,15 +25,15 @@ const navItems: NavItem[] = [
     path: "/dashboard",
   },
   {
-    icon: <LucideLayoutGrid />,
-    name: "Dashboard Admin",
-    path: "/admin-dashboard",
-  },
-  {
     icon: <ListIcon />,
     name: "Daftar Tugas",
     path: "/daftar-tugas",
-  }
+  },
+  {
+    icon: <LockKeyhole />,
+    name: "Tempat Rahasia",
+    path: "/admin-dashboard",
+  },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -211,7 +210,7 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        className={`py-1 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
           }`}
       >
         <Link to="/dashboard" className="">
@@ -221,14 +220,14 @@ const AppSidebar: React.FC = () => {
                 className="dark:hidden"
                 src={logo}
                 alt="Logo"
-                width={150}
+                width={110}
                 height={40}
               />
               <img
                 className="hidden dark:block"
                 src={logoDark}
                 alt="Logo"
-                width={150}
+                width={110}
                 height={40}
               />
             </>
