@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 
 const API = axios.create({
   // baseURL: "http://localhost:3000/",
-  baseURL: "http://192.168.7.36:3000/",
+  baseURL: "http://192.168.24.24:3000/",
 });
 
 // Tambahkan token ke setiap request

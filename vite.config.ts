@@ -17,7 +17,7 @@ export default defineConfig({
   ],
   server: {
     host: true, // Agar bisa diakses dari IP lain
-    port: 80, // Mengubah port menjadi 80
+    port: 8000, // Mengubah port menjadi 80
     strictPort: true, // Agar tidak pindah ke port lain jika 80 dipakai
   },
 });

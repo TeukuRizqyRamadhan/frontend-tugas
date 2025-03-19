@@ -151,11 +151,10 @@ export default function ClassDetail() {
 
                       {userRole === "GURU" && token && (
                         <button
-                          className={`flex items-center gap-2 px-4 py-2 ${
-                            task.isLocked
+                          className={`flex items-center gap-2 px-4 py-2 ${task.isLocked
                               ? "bg-red-600 hover:bg-red-700"
                               : "bg-green-600 hover:bg-green-700"
-                          } text-white rounded-md`}
+                            } text-white rounded-md`}
                           onClick={() => toggleLock(task.id, task.isLocked)}
                         >
                           {task.isLocked ? <FiUnlock /> : <FiLock />}{" "}
