@@ -80,22 +80,44 @@ export default function ClassDetail() {
             <h2 className="text-xl font-semibold mb-4">Daftar Tugas</h2>
             {assignments.length > 0 ? (
               assignments.map((task) => {
-                const fileUrl = `${API.defaults.baseURL}${task.fileUrl.replace(/\\/g, "/")}`;
-                const fileExtension = task.fileUrl.split(".").pop()?.toLowerCase();
-                const isImage = ["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(fileExtension || "");
+                const fileUrl = `${API.defaults.baseURL}${task.fileUrl.replace(
+                  /\\/g,
+                  "/"
+                )}`;
+                const fileExtension = task.fileUrl
+                  .split(".")
+                  .pop()
+                  ?.toLowerCase();
+                const isImage = [
+                  "jpg",
+                  "jpeg",
+                  "png",
+                  "gif",
+                  "bmp",
+                  "webp",
+                ].includes(fileExtension || "");
 
                 return (
-                  <div key={task.id} className="border-b p-4 flex justify-between items-center">
+                  <div
+                    key={task.id}
+                    className="border-b p-4 flex justify-between items-center"
+                  >
                     <div>
                       <h3 className="text-lg font-medium flex items-center gap-2">
                         {task.title}
                         {task.isLocked ? (
-                          <FiLock className="text-red-500" title="Tugas Dikunci" />
+                          <FiLock
+                            className="text-red-500"
+                            title="Tugas Dikunci"
+                          />
                         ) : (
-                          <FiUnlock className="text-green-500" title="Tugas Terbuka" />
+                          <FiUnlock
+                            className="text-green-500"
+                            title="Tugas Terbuka"
+                          />
                         )}
                       </h3>
-                      {isImage ? (
+                      {/* {isImage ? (
                         <img src={fileUrl} alt="Tugas" style={{ height: "300px" }} />
                       ) : (
                         <a
@@ -105,8 +127,10 @@ export default function ClassDetail() {
                         >
                           Download File
                         </a>
-                      )}
-                      <p className="text-gray-500">Catatan: {task.description}</p>
+                      )} */}
+                      <p className="text-gray-500">
+                        Catatan: {task.description}
+                      </p>
                     </div>
                     <div className="flex gap-3">
                       {task.isLocked ? (
@@ -114,24 +138,28 @@ export default function ClassDetail() {
                           className="flex items-center gap-2 px-4 py-2 bg-gray-400 text-gray-700 rounded-md cursor-not-allowed"
                           disabled
                         >
-                          Kerjakan <FiArrowRight />
+                          Upload Disini <FiArrowRight />
                         </button>
                       ) : (
                         <button
                           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                           onClick={() => navigate(`/tasks/${task.id}`)}
                         >
-                          Kerjakan <FiArrowRight />
+                          Upload Disini <FiArrowRight />
                         </button>
                       )}
 
-
                       {userRole === "GURU" && token && (
                         <button
-                          className={`flex items-center gap-2 px-4 py-2 ${task.isLocked ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"} text-white rounded-md`}
+                          className={`flex items-center gap-2 px-4 py-2 ${
+                            task.isLocked
+                              ? "bg-red-600 hover:bg-red-700"
+                              : "bg-green-600 hover:bg-green-700"
+                          } text-white rounded-md`}
                           onClick={() => toggleLock(task.id, task.isLocked)}
                         >
-                          {task.isLocked ? <FiUnlock /> : <FiLock />} {task.isLocked ? "Buka" : "Kunci"}
+                          {task.isLocked ? <FiUnlock /> : <FiLock />}{" "}
+                          {task.isLocked ? "Buka" : "Kunci"}
                         </button>
                       )}
                     </div>
